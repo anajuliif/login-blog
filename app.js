@@ -46,7 +46,8 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
     // Passe a variável 'req' para o template e use-a nas páginas para renderizar partes do HTML conforme determinada condição
     // Por exemplo de o usuário estive logado, veja este exemplo no arquivo views/partials/header.ejs
-    res.render('pages/index', { req: req });
+    // res.render('pages/index', { req: req });
+    res.redirect ('\posts');
     // Caso haja necessidade coloque pontos de verificação para verificar pontos da sua logica de negócios
     console.log(`${req.session.username ? `Usuário ${req.session.username} logado no IP ${req.connection.remoteAddress}` : 'Usuário não logado.'}  `);
     //console.log(req.connection)
@@ -61,14 +62,30 @@ app.get('/login', (req, res) => {
 
 
 app.get('/about', (req, res) => {
-    const dados = [
-        { titulo: "Post 1", post: "Conteúdo post 1" },
-        { titulo: "Post 2", post: "Conteúdo post 2" },
-        { titulo: "Post 3", post: "Conteúdo post 3" }
-    ];
-
-    res.render('pages/about', { req: req, posts: dados });
+    res.render('pages/about', { req: req});
 });
+app.get('/pgposts', (req, res) => {
+    // const dados = [
+    //     { titulo: "Post 1", post: "Conteúdo post 1" },
+    //     { titulo: "Post 2", post: "Conteúdo post 2" },
+    //     { titulo: "Post 3", post: "Conteúdo post 3" }
+    // ];
+    const query = 'SELECT * FROM posts;'
+
+    db.query(query, [], (err, results) => {
+         if (err) throw err;
+         res.render('pages/pgposts', { req: req, posts: results});
+        // if (results.length > 0) {
+        //     req.session.loggedin = true;
+        //     req.session.username = username;
+        //     res.redirect('/dashboard');
+        // } else {
+        //     // res.send('Credenciais incorretas. <a href="/">Tente novamente</a>');
+        //     res.redirect('/login_failed');
+        // }
+    });
+});
+    
 
 // Rota para processar o formulário de login
 app.post('/login', (req, res) => {
