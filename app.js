@@ -62,9 +62,9 @@ app.get('/login', (req, res) => {
 
 app.get('/about', (req, res) => {
     const dados = [
-        { titulo: "Post 1", conteudo: "Conteúdo post 1" },
-        { titulo: "Post 2", conteudo: "Conteúdo post 2" },
-        { titulo: "Post 3", conteudo: "Conteúdo post 3" }
+        { titulo: "Post 1", post: "Conteúdo post 1" },
+        { titulo: "Post 2", post: "Conteúdo post 2" },
+        { titulo: "Post 3", post: "Conteúdo post 3" }
     ];
 
     res.render('pages/about', { req: req, posts: dados });
@@ -92,14 +92,14 @@ app.post('/login', (req, res) => {
 
 // Rota para processar o formulário de caastro depostagem
 app.post('/cadastrar_posts', (req, res) => {
-    const { titulo, conteudo } = req.body;
+    const { titulo, post } = req.body;
     const name = "admin";
     const datapostagem = new Date();
 
     // const query = 'SELECT * FROM users WHERE username = ? AND password = SHA1(?)';
     const query = 'INSERT INTO posts (titulo, post, name, datapostagem) VALUES (?, ?, ?, ?)';
 
-    db.query(query, [titulo, conteudo, name, datapostagem], (err, results) => {
+    db.query(query, [titulo, post, name, datapostagem], (err, results) => {
         if (err) throw err;
         console.log(`Rotina cadastrar posts: ${JSON.stringify(results)}`);
         if (results.affectedRows > 0) {
