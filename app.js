@@ -8,7 +8,7 @@ const app = express();
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'phpmyadmin',
-    password: '123456789',
+    password: 'anac',
     database: 'mydb',
 });
 
@@ -93,13 +93,13 @@ app.post('/login', (req, res) => {
 // Rota para processar o formulário de caastro depostagem
 app.post('/cadastrar_posts', (req, res) => {
     const { titulo, conteudo } = req.body;
-    const autor = "admin";
+    const name = "admin";
     const datapostagem = new Date();
 
     // const query = 'SELECT * FROM users WHERE username = ? AND password = SHA1(?)';
-    const query = 'INSERT INTO posts (titulo, conteudo, autor, datapostagem) VALUES (?, ?, ?, ?)';
+    const query = 'INSERT INTO posts (titulo, post, name, datapostagem) VALUES (?, ?, ?, ?)';
 
-    db.query(query, [titulo, conteudo, autor, datapostagem], (err, results) => {
+    db.query(query, [titulo, conteudo, name, datapostagem], (err, results) => {
         if (err) throw err;
         console.log(`Rotina cadastrar posts: ${JSON.stringify(results)}`);
         if (results.affectedRows > 0) {
